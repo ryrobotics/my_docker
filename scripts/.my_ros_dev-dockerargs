@@ -1,0 +1,2 @@
+-v /usr/local/cuda-11.4/targets/aarch64-linux/include:/usr/local/cuda-11.4/targets/aarch64-linux/include
+-v /usr/local/cuda-11.4/targets/aarch64-linux/lib:/usr/local/cuda-11.4/targets/aarch64-linux/lib
