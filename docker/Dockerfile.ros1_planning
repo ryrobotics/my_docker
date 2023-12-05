@@ -1,0 +1,21 @@
+#
+# this dockerfile roughly follows the 'Installing from source' from:
+#   http://wiki.ros.org/noetic/Installation/Source
+#
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+ENV ROS_DISTRO=noetic
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-${ROS_DISTRO}-mavros ros-${ROS_DISTRO}-mavros-extras ros-${ROS_DISTRO}-mavros-msgs \
+    ros-${ROS_DISTRO}-serial \
+    ros-${ROS_DISTRO}-gazebo-msgs \
+    && wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && chmod a+x install_geographiclib_datasets.sh \
+    && ./install_geographiclib_datasets.sh \
+    && rm -rf ./install_geographiclib_datasets.sh

@@ -1,0 +1,11 @@
+# Dockerfile for setting up Isaac ROS Visual SLAM
+#  https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam
+
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    netbase netcat net-tools\
+    tmux tmuxinator \
+&& rm -rf /var/lib/apt/lists/* \
+&& apt-get clean

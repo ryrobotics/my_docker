@@ -12,35 +12,34 @@ ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $ROOT/utils/print_color.sh
 
 function usage() {
-    print_info "Usage: run_dev.sh" {isaac_ros_dev directory path OPTIONAL}
-    print_info "Copyright (c) 2021-2022, NVIDIA CORPORATION."
+    print_info "Usage: run_dev.sh" {my_ros_dev directory path OPTIONAL}
 }
 
 # Read and parse config file if exists
 #
 # CONFIG_IMAGE_KEY (string, can be empty)
 
-if [[ -f "${ROOT}/.isaac_ros_common-config" ]]; then
-    . "${ROOT}/.isaac_ros_common-config"
+if [[ -f "${ROOT}/.my_ros_common-config" ]]; then
+    . "${ROOT}/.my_ros_common-config"
 fi
 
-ISAAC_ROS_DEV_DIR="$1"
-if [[ -z "$ISAAC_ROS_DEV_DIR" ]]; then
-    ISAAC_ROS_DEV_DIR_DEFAULTS=("$HOME/workspaces/isaac_ros-dev" "/workspaces/isaac_ros-dev")
-    for ISAAC_ROS_DEV_DIR in "${ISAAC_ROS_DEV_DIR_DEFAULTS[@]}"
+MY_ROS_DEV_DIR="$1"
+if [[ -z "$MY_ROS_DEV_DIR" ]]; then
+    MY_ROS_DEV_DIR_DEFAULTS=("$HOME/workspaces/my_ros-dev" "/workspaces/my_ros-dev")
+    for MY_ROS_DEV_DIR in "${MY_ROS_DEV_DIR_DEFAULTS[@]}"
     do
-        if [[ -d "$ISAAC_ROS_DEV_DIR" ]]; then
+        if [[ -d "$MY_ROS_DEV_DIR" ]]; then
             break
         fi
     done
 
-    if [[ ! -d "$ISAAC_ROS_DEV_DIR" ]]; then
-        ISAAC_ROS_DEV_DIR=$(realpath "$ROOT/../")
+    if [[ ! -d "$MY_ROS_DEV_DIR" ]]; then
+        MY_ROS_DEV_DIR=$(realpath "$ROOT/../")
     fi
-    print_warning "isaac_ros_dev not specified, assuming $ISAAC_ROS_DEV_DIR"
+    print_warning "my_ros_dev not specified, assuming $MY_ROS_DEV_DIR"
 else
-    if [[ ! -d "$ISAAC_ROS_DEV_DIR" ]]; then
-        print_error "Specified isaac_ros_dev does not exist: $ISAAC_ROS_DEV_DIR"
+    if [[ ! -d "$MY_ROS_DEV_DIR" ]]; then
+        print_error "Specified my_ros_dev does not exist: $MY_ROS_DEV_DIR"
         exit 1
     fi
     shift 1
@@ -93,7 +92,7 @@ fi
 cd $ROOT
 git rev-parse &>/dev/null
 if [[ $? -eq 0 ]]; then
-    LFS_FILES_STATUS=$(cd $ISAAC_ROS_DEV_DIR && git lfs ls-files | cut -d ' ' -f2)
+    LFS_FILES_STATUS=$(cd $MY_ROS_DEV_DIR && git lfs ls-files | cut -d ' ' -f2)
     for (( i=0; i<${#LFS_FILES_STATUS}; i++ )); do
         f="${LFS_FILES_STATUS:$i:1}"
         if [[ "$f" == "-" ]]; then
@@ -105,7 +104,7 @@ fi
 
 PLATFORM="$(uname -m)"
 
-BASE_NAME="isaac_ros_dev-$PLATFORM"
+BASE_NAME="my_ros_dev-$PLATFORM"
 CONTAINER_NAME="$BASE_NAME-container"
 
 # Remove any exited containers.
@@ -116,12 +115,12 @@ fi
 # Re-use existing container.
 if [ "$(docker ps -a --quiet --filter status=running --filter name=$CONTAINER_NAME)" ]; then
     print_info "Attaching to running container: $CONTAINER_NAME"
-    docker exec -i -t -u admin --workdir /workspaces/isaac_ros-dev $CONTAINER_NAME /bin/bash $@
+    docker exec -i -t -u admin --workdir /workspaces/my_ros-dev $CONTAINER_NAME /bin/bash $@
     exit 0
 fi
 
 # Build image
-IMAGE_KEY=ros2_humble
+IMAGE_KEY=aarch64
 if [[ ! -z "${CONFIG_IMAGE_KEY}" ]]; then
     IMAGE_KEY=$CONFIG_IMAGE_KEY
 fi
@@ -181,7 +180,7 @@ if [[ $PLATFORM == "aarch64" ]]; then
 fi
 
 # Optionally load custom docker arguments from file
-DOCKER_ARGS_FILE="$ROOT/.isaac_ros_dev-dockerargs"
+DOCKER_ARGS_FILE="$ROOT/.my_ros_dev-dockerargs"
 if [[ -f "$DOCKER_ARGS_FILE" ]]; then
     print_info "Using additional Docker run arguments from $DOCKER_ARGS_FILE"
     readarray -t DOCKER_ARGS_FILE_LINES < $DOCKER_ARGS_FILE
@@ -196,14 +195,14 @@ docker run -it --rm \
     --privileged \
     --network host \
     ${DOCKER_ARGS[@]} \
-    -v $ISAAC_ROS_DEV_DIR:/workspaces/isaac_ros-dev \
+    -v $MY_ROS_DEV_DIR:/workspaces/my_ros-dev \
     -v /dev/*:/dev/* \
     -v /etc/localtime:/etc/localtime:ro \
     --name "$CONTAINER_NAME" \
     --runtime nvidia \
     --user="admin" \
     --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
-    --workdir /workspaces/isaac_ros-dev \
+    --workdir /workspaces/my_ros-dev \
     $@ \
     $BASE_NAME \
     /bin/bash
