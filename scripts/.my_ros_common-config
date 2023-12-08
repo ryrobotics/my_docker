@@ -1,2 +1,3 @@
 CONFIG_IMAGE_KEY="ros1_noetic.ros1_planning.myutils"
+# CONFIG_IMAGE_KEY="ros1_noetic.ros1_planning.myutils.sitl"
 # CONFIG_DOCKER_SEARCH_DIRS=(workspaces/my_ros-dev/ros_ws/docker)
