@@ -1,0 +1,27 @@
+# Dockerfile for setting up PX4 Gazebo SITL
+# https://docs.px4.io/v1.13/en/dev_setup/dev_env_linux_ubuntu.html#ros-gazebo
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+#
+# install ROS packages
+#
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ros-${ROS_DISTRO}-desktop-full \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+#
+# install PX4 deps
+#
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libceres-dev \
+    ninja-build exiftool ninja-build protobuf-compiler genromfs xxd \
+    xmlstarlet libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gawk \
+    python3-empy python3-toml python3-numpy python3-dev python3-pip \
+&& rm -rf /var/lib/apt/lists/* \
+&& apt-get clean
+
+RUN python3 -m pip install --no-cache-dir \
+    pandas jinja2 pyserial pyyaml pyulog pyargparse kconfiglib jsonschema future
