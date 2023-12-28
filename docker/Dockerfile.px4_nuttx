@@ -1,0 +1,4 @@
+# Docker file for PX4 Docker Containers
+
+ARG BASE_IMAGE="px4io/px4-dev-nuttx-focal:latest"
+FROM ${BASE_IMAGE}
