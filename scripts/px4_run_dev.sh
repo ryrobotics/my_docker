@@ -116,7 +116,7 @@ if [ "$(docker ps -a --quiet --filter status=running --filter name=$CONTAINER_NA
 fi
 
 # Build image
-BASE_IMAGE_KEY=px4_nuttx.user
+BASE_IMAGE_KEY=px4_nuttx.user.myutils
 
 print_info "Building $BASE_IMAGE_KEY base as image: $BASE_NAME using key $BASE_IMAGE_KEY"
 $ROOT/build_base_image.sh $BASE_IMAGE_KEY $BASE_NAME '' '' ''

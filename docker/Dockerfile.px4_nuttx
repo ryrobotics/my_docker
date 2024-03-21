@@ -2,3 +2,14 @@
 
 ARG BASE_IMAGE="px4io/px4-dev-nuttx-focal:latest"
 FROM ${BASE_IMAGE}
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    usbutils \
+    libncurses5 \
+    stlink-tools \
+    libusb-1.0-0-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+COPY udev_rules/49-stlinkv2-1.rules /etc/udev/rules.d/49-stlinkv2-1.rules

@@ -1,2 +1,4 @@
 -v /usr/local/cuda/targets/aarch64-linux/include:/usr/local/cuda/targets/aarch64-linux/include
 -v /usr/local/cuda/targets/aarch64-linux/lib:/usr/local/cuda/targets/aarch64-linux/lib
+
+-v ~/Public/gazebo:/home/admin/.gazebo:rw
