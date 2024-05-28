@@ -1,0 +1,15 @@
+# Dockerfile for setting up PX4 Gazebo SITL
+# https://crazyswarm.readthedocs.io/en/latest/installation.html
+
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ros-${ROS_DISTRO}-tf ros-${ROS_DISTRO}-tf-conversions ros-${ROS_DISTRO}-joy \
+    libpcl-dev libusb-1.0-0-dev \
+    swig \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+RUN python3 -m pip install pytest numpy PyYAML scipy matplotlib
