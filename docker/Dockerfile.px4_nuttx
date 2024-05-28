@@ -13,3 +13,5 @@ RUN apt-get update && \
     && apt-get clean
 
 COPY udev_rules/49-stlinkv2-1.rules /etc/udev/rules.d/49-stlinkv2-1.rules
+
+COPY udev_rules/99-blackmagic-plugdev.rules /etc/udev/rules.d/99-blackmagic-plugdev.rules
