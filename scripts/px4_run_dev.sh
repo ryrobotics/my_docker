@@ -21,7 +21,7 @@ function usage() {
 
 MY_ROS_DEV_DIR="$1"
 if [[ -z "$MY_ROS_DEV_DIR" ]]; then
-    MY_ROS_DEV_DIR_DEFAULTS=("$HOME/workspaces/px4-dev" "/workspaces/px4-dev")
+    MY_ROS_DEV_DIR_DEFAULTS=("$HOME/workspaces/my_ros-dev" "/workspaces/my_ros-dev")
     for MY_ROS_DEV_DIR in "${MY_ROS_DEV_DIR_DEFAULTS[@]}"
     do
         if [[ -d "$MY_ROS_DEV_DIR" ]]; then
@@ -111,7 +111,7 @@ fi
 # Re-use existing container.
 if [ "$(docker ps -a --quiet --filter status=running --filter name=$CONTAINER_NAME)" ]; then
     print_info "Attaching to running container: $CONTAINER_NAME"
-    docker exec -i -t -u admin --workdir /workspaces/px4-dev $CONTAINER_NAME /bin/bash $@
+    docker exec -i -t -u admin --workdir /workspaces/my_ros-dev $CONTAINER_NAME /bin/bash $@
     exit 0
 fi
 
@@ -142,14 +142,14 @@ docker run -it --rm \
     --privileged \
     --network host \
     ${DOCKER_ARGS[@]} \
-    -v $MY_ROS_DEV_DIR:/workspaces/px4-dev \
+    -v $MY_ROS_DEV_DIR:/workspaces/my_ros-dev \
     -v /dev/*:/dev/* \
     -v /etc/localtime:/etc/localtime:ro \
     --name "$CONTAINER_NAME" \
     --runtime nvidia \
     --user="admin" \
     --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
-    --workdir /workspaces/px4-dev \
+    --workdir /workspaces/my_ros-dev \
     $@ \
     $BASE_NAME \
     /bin/bash
