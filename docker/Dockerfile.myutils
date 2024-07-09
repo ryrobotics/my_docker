@@ -5,8 +5,15 @@ ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    netbase netcat net-tools\
+    netbase netcat net-tools usbutils \
     tmux tmuxinator \
     python3-tk \
 && rm -rf /var/lib/apt/lists/* \
 && apt-get clean
+
+# Copy hotplug script which will get invoked whenever a devices plugged or un-plugged
+RUN mkdir -p /opt/px4/
+COPY scripts/hotplug-px4.sh /opt/px4/hotplug-px4.sh
+
+# Copy custom udev rules file
+COPY udev_rules/99-px4-plugdev.rules /etc/udev/rules.d/99-px4-plugdev.rules
