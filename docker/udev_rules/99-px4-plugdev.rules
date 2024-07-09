@@ -4,3 +4,11 @@
 # For fmu-v5
 ACTION=="add" SUBSYSTEMS=="usb", ATTRS{idVendor}=="26ac", ATTRS{idProduct}=="0032", MODE:="0666", GROUP:="plugdev", RUN+="/opt/px4/hotplug-px4.sh -a add -d '%N' -M '%M' -m '%m'"
 ACTION=="remove" SUBSYSTEMS=="usb", ATTRS{idVendor}=="26ac", ATTRS{idProduct}=="0032", MODE:="0666", GROUP:="plugdev", RUN+="/opt/px4/hotplug-px4.sh -a remove -d '%N' -p '%P'"
+
+# For fmu-v6c
+ACTION=="add" SUBSYSTEMS=="usb", ATTRS{idVendor}=="3185", ATTRS{idProduct}=="0038", MODE:="0666", GROUP:="plugdev", RUN+="/opt/px4/hotplug-px4.sh -a add -d '%N' -M '%M' -m '%m'"
+ACTION=="remove" SUBSYSTEMS=="usb", ATTRS{idVendor}=="3185", ATTRS{idProduct}=="0038", MODE:="0666", GROUP:="plugdev", RUN+="/opt/px4/hotplug-px4.sh -a remove -d '%N' -p '%P'"
+
+# For Pixhawk Debug Adapter Mini
+ACTION=="add" SUBSYSTEMS=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", MODE:="0666", GROUP:="plugdev", RUN+="/opt/px4/hotplug-px4.sh -a add -d '%N' -M '%M' -m '%m'"
+ACTION=="remove" SUBSYSTEMS=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", MODE:="0666", GROUP:="plugdev", RUN+="/opt/px4/hotplug-px4.sh -a remove -d '%N' -p '%P'"

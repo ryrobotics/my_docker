@@ -1,11 +1,11 @@
-# Dockerfile for setting up Isaac ROS Visual SLAM
-#  https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam
+# Dockerfile for some utils in PX4 and ROS development
 
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    netbase netcat net-tools usbutils \
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update && apt-get install -y --no-install-recommends \
+    netbase netcat net-tools usbutils psmisc \
     tmux tmuxinator \
     python3-tk \
 && rm -rf /var/lib/apt/lists/* \
