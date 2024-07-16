@@ -7,9 +7,11 @@ RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
     netbase netcat net-tools usbutils psmisc \
     tmux tmuxinator \
-    python3-tk \
-&& rm -rf /var/lib/apt/lists/* \
-&& apt-get clean
+    python3-tk
+
+# Remove for customed mavros
+RUN apt-get remove -y \
+    ros-noetic-mavros ros-noetic-mavros-extras ros-noetic-mavros-msgs
 
 # Copy hotplug script which will get invoked whenever a devices plugged or un-plugged
 RUN mkdir -p /opt/px4/
