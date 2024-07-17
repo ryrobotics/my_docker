@@ -15,6 +15,8 @@ source /opt/ros/${ROS_DISTRO}/setup.bash
 # sudo apt-get update
 # rosdep update
 
+sudo apt-get remove -y ros-noetic-mavros-msgs
+
 # Restart udev daemon
 sudo service udev restart
 

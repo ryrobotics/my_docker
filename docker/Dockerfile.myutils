@@ -9,10 +9,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
     tmux tmuxinator \
     python3-tk
 
-# Remove for customed mavros
-RUN apt-get remove -y \
-    ros-noetic-mavros ros-noetic-mavros-extras ros-noetic-mavros-msgs
-
 # Copy hotplug script which will get invoked whenever a devices plugged or un-plugged
 RUN mkdir -p /opt/px4/
 COPY scripts/hotplug-px4.sh /opt/px4/hotplug-px4.sh
