@@ -20,3 +20,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && chmod a+x install_geographiclib_datasets.sh \
     && ./install_geographiclib_datasets.sh \
     && rm -rf ./install_geographiclib_datasets.sh
+
+RUN wget https://github.com/stevengj/nlopt/archive/refs/tags/v2.8.0.tar.gz \
+    && tar -xvzf v2.8.0.tar.gz && cd nlopt-2.8.0 \
+    && mkdir build && cd build \
+    && cmake .. && make && make install \
+    && cd ../.. \
+    && rm -rf nlopt-2.8.0 v2.8.0.tar.gz

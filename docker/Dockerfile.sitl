@@ -63,3 +63,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
         pkg-config \
         protobuf-compiler \
         xmlstarlet
+
+# for MPC controller
+RUN --mount=type=cache,target=/var/cache/apt \
+	apt-get update && apt-get install -y --no-install-recommends gnuplot \
+	&& python3 -m pip install symforce
