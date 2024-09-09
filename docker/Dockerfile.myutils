@@ -7,7 +7,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
     netbase netcat net-tools usbutils psmisc \
     tmux tmuxinator \
-    python3-tk
+    python3-tk \
+    gdb
 
 # Copy hotplug script which will get invoked whenever a devices plugged or un-plugged
 RUN mkdir -p /opt/px4/
