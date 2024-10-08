@@ -13,6 +13,8 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
+RUN python3 -m pip install -U pyserial
+
 COPY udev_rules/49-stlinkv2-1.rules /etc/udev/rules.d/49-stlinkv2-1.rules
 
 COPY udev_rules/99-blackmagic-plugdev.rules /etc/udev/rules.d/99-blackmagic-plugdev.rules
